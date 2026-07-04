@@ -1,0 +1,20 @@
+{
+  "name": "shopify-sticky-variant-app",
+  "version": "1.0.0",
+  "description": "A basic Shopify app that adds a sticky variant/add-to-cart bar to a store's product pages. Server-rendered (vanilla JS, no frontend framework) and talks to the Shopify Admin API for OAuth + ScriptTag registration.",
+  "main": "server.js",
+  "type": "commonjs",
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node --watch server.js"
+  },
+  "dependencies": {
+    "express": "^4.19.2",
+    "dotenv": "^16.4.5",
+    "cookie-session": "^2.1.0"
+  },
+  "license": "MIT"
+}
