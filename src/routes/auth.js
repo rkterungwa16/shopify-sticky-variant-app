@@ -19,7 +19,11 @@ const router = express.Router();
 router.get("/auth", (req, res) => {
   const { shop } = req.query;
   if (!isValidShopDomain(shop)) {
-    return res.status(400).send("Missing or invalid ?shop= parameter, e.g. ?shop=my-store.myshopify.com");
+    return res
+      .status(400)
+      .send(
+        "Missing or invalid ?shop= parameter, e.g. ?shop=karenkombolateliers.myshopify.com",
+      );
   }
 
   const state = generateNonce();
@@ -36,7 +40,9 @@ router.get("/auth/callback", async (req, res) => {
     return res.status(400).send("Invalid shop parameter.");
   }
   if (!verifyHmac(req.query)) {
-    return res.status(401).send("HMAC validation failed - request may not be from Shopify.");
+    return res
+      .status(401)
+      .send("HMAC validation failed - request may not be from Shopify.");
   }
   if (!state || state !== req.session.oauthState) {
     return res.status(401).send("State mismatch - possible CSRF attempt.");
@@ -54,7 +60,9 @@ router.get("/auth/callback", async (req, res) => {
     res.redirect(`/dashboard?shop=${encodeURIComponent(shop)}`);
   } catch (err) {
     console.error(err);
-    res.status(500).send("Something went wrong finishing installation. Check server logs.");
+    res
+      .status(500)
+      .send("Something went wrong finishing installation. Check server logs.");
   }
 });
 

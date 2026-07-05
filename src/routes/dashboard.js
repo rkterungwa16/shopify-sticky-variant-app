@@ -15,7 +15,7 @@ function requireShop(req, res, next) {
   if (!shop) return res.status(400).send("Missing ?shop= parameter.");
   const record = getShop(shop);
   if (!record || !record.accessToken) {
-    return res.redirect(`/auth?shop=${encodeURIComponent(shop)}`);
+    return res.redirect(`/?shop=${encodeURIComponent(shop)}`);
   }
   req.shop = shop;
   req.shopRecord = record;
@@ -85,31 +85,39 @@ router.get("/dashboard", requireShop, async (req, res) => {
     <div class="card">
       <h2>Products</h2>
       ${error ? `<p style="color:#b3261e;">Couldn't load products: ${escapeHtml(error)}</p>` : ""}
-      ${products.length
-        ? `<table>
+      ${
+        products.length
+          ? `<table>
             <thead><tr><th></th><th>Title</th><th>Variants</th><th>Status</th></tr></thead>
             <tbody>${rows}</tbody>
           </table>`
-        : "<p>No products found yet.</p>"}
+          : "<p>No products found yet.</p>"
+      }
     </div>
   `;
 
   res.send(page({ title: "Sticky Variant Bar - Dashboard", body, shop }));
 });
 
-router.post("/dashboard/settings", requireShop, express.urlencoded({ extended: true }), (req, res) => {
-  const { shop } = req;
-  const { buttonLabel, backgroundColor, textColor, accentColor, enabled } = req.body;
+router.post(
+  "/dashboard/settings",
+  requireShop,
+  express.urlencoded({ extended: true }),
+  (req, res) => {
+    const { shop } = req;
+    const { buttonLabel, backgroundColor, textColor, accentColor, enabled } =
+      req.body;
 
-  saveSettings(shop, {
-    buttonLabel: buttonLabel || "Add to cart",
-    backgroundColor: backgroundColor || "#111111",
-    textColor: textColor || "#ffffff",
-    accentColor: accentColor || "#2e6cf6",
-    enabled: enabled === "on",
-  });
+    saveSettings(shop, {
+      buttonLabel: buttonLabel || "Add to cart",
+      backgroundColor: backgroundColor || "#111111",
+      textColor: textColor || "#ffffff",
+      accentColor: accentColor || "#2e6cf6",
+      enabled: enabled === "on",
+    });
 
-  res.redirect(`/dashboard?shop=${encodeURIComponent(shop)}`);
-});
+    res.redirect(`/dashboard?shop=${encodeURIComponent(shop)}`);
+  },
+);
 
 module.exports = router;
