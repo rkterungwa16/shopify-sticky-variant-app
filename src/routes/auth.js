@@ -17,6 +17,7 @@ const { ensureStickyBarScriptTag } = require("../shopifyApi");
 const router = express.Router();
 
 router.get("/auth", (req, res) => {
+  console.log("AUTH__API");
   const { shop } = req.query;
   if (!isValidShopDomain(shop)) {
     return res
@@ -29,8 +30,9 @@ router.get("/auth", (req, res) => {
   const state = generateNonce();
   req.session.oauthState = state;
   req.session.shop = shop;
-
-  res.redirect(buildInstallUrl(shop, state));
+  const redirectUrl = buildInstallUrl(shop, state);
+  console.log("REDIRECT_URL__", redirectUrl);
+  res.redirect(redirectUrl);
 });
 
 router.get("/auth/callback", async (req, res) => {

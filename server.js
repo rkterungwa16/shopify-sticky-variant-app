@@ -53,7 +53,7 @@ app.get("/", (req, res) => {
     ? `<div class="card">
         <h2>Install Sticky Variant Bar</h2>
         <p>Connect this app to <strong>${shop}</strong> to add a sticky add-to-cart bar to your product pages.</p>
-        <a href="/?shop=${encodeURIComponent(shop)}"><button>Install on this store</button></a>
+        <a href="/auth?shop=${encodeURIComponent(shop)}"><button>Install on this store</button></a>
       </div>`
     : `<div class="card">
         <h2>Sticky Variant Bar</h2>
